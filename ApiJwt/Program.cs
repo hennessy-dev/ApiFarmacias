@@ -49,7 +49,6 @@ using (var scope = app.Services.CreateScope())
 	{
 		var context = services.GetRequiredService<JwtAppContext>();
 		await context.Database.MigrateAsync();
-		await JwtAppContextSeed.SeedAsync(context,loggerFactory);
 	}
 	catch (Exception ex)
 	{
