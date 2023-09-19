@@ -5,9 +5,9 @@ using Persistence;
 namespace Application.Repository;
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    private readonly JwtAppContext _context;
+    private readonly FarmaciaContext _context;
 
-    public UserRepository(JwtAppContext context) : base(context)
+    public UserRepository(FarmaciaContext context) : base(context)
     {
         _context = context;
     }

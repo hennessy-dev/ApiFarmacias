@@ -16,7 +16,7 @@ public class UserController : ApiBaseController
     {
         _userService = userService;
     }
-        [HttpPost("register")]
+    [HttpPost("register")]
     public async Task<ActionResult> RegisterAsync(RegisterDto model)
     {
         var result = await _userService.RegisterAsync(model);

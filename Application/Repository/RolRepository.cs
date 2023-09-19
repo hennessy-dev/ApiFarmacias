@@ -6,9 +6,9 @@ namespace Application.Repository;
 
 public class RolRepository : GenericRepository<Rol>, IRolRepository
 {
-    private readonly JwtAppContext _context;
+    private readonly FarmaciaContext _context;
 
-    public RolRepository(JwtAppContext context) : base(context)
+    public RolRepository(FarmaciaContext context) : base(context)
     {
        _context = context;
     }

@@ -4,10 +4,10 @@ using Persistence;
 namespace Application.UnitOfWork;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private readonly JwtAppContext _context;
+    private readonly FarmaciaContext _context;
     private IRolRepository _roles;
     private IUserRepository _users;
-    public UnitOfWork(JwtAppContext context)
+    public UnitOfWork(FarmaciaContext context)
     {
         _context = context;
     }
@@ -32,6 +32,103 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 _users = new UserRepository(_context);
             }
             return _users;
+        }
+    }
+    
+    private ICompra _compras;
+    public ICompra Compras
+    {
+        get
+        {
+            if (_compras == null)
+            {
+                _compras = new CompraRepository(_context);
+            }
+            return _compras;
+        }
+    }
+    private IEmpleado _empleados;
+    public IEmpleado Empleados
+    {
+        get
+        {
+            if (_empleados == null)
+            {
+                _empleados = new EmpleadoRepository(_context);
+            }
+            return _empleados;
+        }
+    }
+    private IMedicamentoComprado _medicamentosComprados;
+    public IMedicamentoComprado MedicamentosComprados
+    {
+        get
+        {
+            if (_medicamentosComprados == null)
+            {
+                _medicamentosComprados = new MedicamentoCompradoRepository(_context);
+            }
+            return _medicamentosComprados;
+        }
+    }
+    private IMedicamento _medicamentos;
+    public IMedicamento Medicamentos
+    {
+        get
+        {
+            if (_medicamentos == null)
+            {
+                _medicamentos = new MedicamentoRepository(_context);
+            }
+            return _medicamentos;
+        }
+    }
+    private IMedicamentoVendido _medicamentosVendidos;
+    public IMedicamentoVendido MedicamentosVendidos
+    {
+        get
+        {
+            if (_medicamentosVendidos == null)
+            {
+                _medicamentosVendidos = new MedicamentoVendidoRepository(_context);
+            }
+            return _medicamentosVendidos;
+        }
+    }
+    private IPaciente _pacientes;
+    public IPaciente Pacientes
+    {
+        get
+        {
+            if ( _pacientes == null)
+            {
+                _pacientes = new PacienteRepository(_context);
+            }
+            return _pacientes;
+        }
+    }
+    private IProveedor _proveedores;
+    public IProveedor Proveedores
+    {
+        get
+        {
+            if (_proveedores == null)
+            {
+                _proveedores = new ProveedorRepository(_context);
+            }
+            return _proveedores;
+        }
+    }
+    private IVenta _ventas;
+    public IVenta Ventas
+    {
+        get
+        {
+            if (_ventas == null)
+            {
+                _ventas = new VentaRepository(_context);
+            }
+            return _ventas;
         }
     }
     public async Task<int> SaveAsync()

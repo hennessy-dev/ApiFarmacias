@@ -25,7 +25,7 @@ builder.Services.ConfigureCors();
 builder.Services.AddAplicacionServices();
 builder.Services.AddJwt(builder.Configuration);
 
-builder.Services.AddDbContext<JwtAppContext>(options =>
+builder.Services.AddDbContext<FarmaciaContext>(options =>
 {
     string connectionString = builder.Configuration.GetConnectionString("ConexMysql");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -47,7 +47,7 @@ using (var scope = app.Services.CreateScope())
 	var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 	try
 	{
-		var context = services.GetRequiredService<JwtAppContext>();
+		var context = services.GetRequiredService<FarmaciaContext>();
 		await context.Database.MigrateAsync();
 	}
 	catch (Exception ex)

@@ -6,9 +6,9 @@ using Persistence;
 namespace Application.Repository;
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
-    private readonly JwtAppContext _context;
+    private readonly FarmaciaContext _context;
 
-    public GenericRepository(JwtAppContext context)
+    public GenericRepository(FarmaciaContext context)
     {
         _context = context;
     }
