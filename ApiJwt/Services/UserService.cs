@@ -44,7 +44,7 @@ public class UserService : IUserService
                                     .First();
             try
             {
-                user.Rols.Add(rolDefault);
+                user.Roles.Add(rolDefault);
                 _unitOfWork.Users.Add(user);
                 await _unitOfWork.SaveAsync();
 
@@ -83,7 +83,7 @@ public class UserService : IUserService
             dataUserDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             dataUserDto.Email = user.Email;
             dataUserDto.UserName = user.Username;
-            dataUserDto.Roles = user.Rols
+            dataUserDto.Roles = user.Roles
                                             .Select(u => u.Nombre)
                                             .ToList();
 
@@ -129,12 +129,12 @@ public class UserService : IUserService
 
             if (rolExists != null)
             {
-                var userHasRole = user.Rols
+                var userHasRole = user.Roles
                                             .Any(u => u.Id == rolExists.Id);
 
                 if (userHasRole == false)
                 {
-                    user.Rols.Add(rolExists);
+                    user.Roles.Add(rolExists);
                     _unitOfWork.Users.Update(user);
                     await _unitOfWork.SaveAsync();
                 }
@@ -181,7 +181,7 @@ public class UserService : IUserService
         dataUserDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         dataUserDto.Email = usuario.Email;
         dataUserDto.UserName = usuario.Username;
-        dataUserDto.Roles = usuario.Rols
+        dataUserDto.Roles = usuario.Roles
                                         .Select(u => u.Nombre)
                                         .ToList();
         dataUserDto.RefreshToken = newRefreshToken.Token;
@@ -204,7 +204,7 @@ public class UserService : IUserService
     }
     private JwtSecurityToken CreateJwtToken(User usuario)
     {
-        var roles = usuario.Rols;
+        var roles = usuario.Roles;
         var roleClaims = new List<Claim>();
         foreach (var role in roles)
         {

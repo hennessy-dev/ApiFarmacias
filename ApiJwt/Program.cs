@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 builder.Services.ConfigureCors();
 builder.Services.AddAplicacionServices();
+builder.Services.ConfigureApiVersioning();
 builder.Services.AddJwt(builder.Configuration);
 
 builder.Services.AddDbContext<FarmaciaContext>(options =>

@@ -8,6 +8,7 @@ using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ApiJwt.Extension;
@@ -19,9 +20,20 @@ public static class ApplicationServiceExtensions
         {
             options.AddPolicy("CorsPolicy", builder =>
                 builder.AllowAnyOrigin()    //WithOrigins("https://domain.com")
-                    .AllowAnyMethod()       //WithMethods("GET","POST)
+                    .WithMethods("GET")
                     .AllowAnyHeader());     //WithHeaders("accept","content-type")
         });
+        public static void ConfigureApiVersioning (this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>{
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new QueryStringApiVersionReader("v"),
+                    new HeaderApiVersionReader ("X-Version")
+                );
+            });
+        }
     public static void AddAplicacionServices(this IServiceCollection services)
     {
         services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();

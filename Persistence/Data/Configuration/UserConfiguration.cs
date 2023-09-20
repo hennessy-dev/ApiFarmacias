@@ -33,18 +33,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .IsRequired();
 
                 builder
-               .HasMany(p => p.Rols)
+               .HasMany(p => p.Roles)
                .WithMany(r => r.Users)
                .UsingEntity<UserRol>(
 
                    j => j
                    .HasOne(pt => pt.Rol)
-                   .WithMany(t => t.UsersRols)
+                   .WithMany(t => t.UsersRoles)
                    .HasForeignKey(ut => ut.RolId),
 
                    j => j
                    .HasOne(et => et.Usuario)
-                   .WithMany(et => et.UsersRols)
+                   .WithMany(et => et.UsersRoles)
                    .HasForeignKey(el => el.UsuarioId),
 
                    j =>

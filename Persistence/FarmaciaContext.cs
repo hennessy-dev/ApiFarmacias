@@ -9,9 +9,9 @@ public class FarmaciaContext : DbContext
         public FarmaciaContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Rol> Rols { get; set; }
+        public DbSet<Rol> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRol> UsersRols { get; set; }
+        public DbSet<UserRol> UsersRoles { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Medicamento> Medicamentos { get; set; }

@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(FarmaciaContext))]
-    [Migration("20230919210407_InitialMigration")]
+    [Migration("20230920195033_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -412,13 +412,13 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Entities.UserRol", b =>
                 {
                     b.HasOne("Domain.Entities.Rol", "Rol")
-                        .WithMany("UsersRols")
+                        .WithMany("UsersRoles")
                         .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.User", "Usuario")
-                        .WithMany("UsersRols")
+                        .WithMany("UsersRoles")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -478,14 +478,14 @@ namespace Persistence.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Rol", b =>
                 {
-                    b.Navigation("UsersRols");
+                    b.Navigation("UsersRoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("RefreshTokens");
 
-                    b.Navigation("UsersRols");
+                    b.Navigation("UsersRoles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Venta", b =>
