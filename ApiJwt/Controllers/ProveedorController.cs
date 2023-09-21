@@ -41,8 +41,7 @@ namespace ApiJwt.Controllers
         }
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<ProveedorDto>>> Get ([FromQuery] Params ProveedorParams){
-            
+        public async Task<ActionResult<Pager<ProveedorDto>>> Get ([FromQuery] Params ProveedorParams) {
             var Proveedores = await _unitOfWork.Proveedores.GetAllAsync(ProveedorParams.PageIndex,ProveedorParams.PageSize,ProveedorParams.Search);
             var ProveedoresListDto = _mapper.Map<List<ProveedorDto>>(Proveedores.registers);
             return new Pager<ProveedorDto>(ProveedoresListDto,Proveedores.totalRegisters,ProveedorParams.PageIndex,ProveedorParams.PageSize,ProveedorParams.Search);

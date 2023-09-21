@@ -26,7 +26,7 @@ namespace API.Helpers
             return (int)Math.Ceiling((decimal)Total/PageSize);
         } }
         public bool HasPreviousPage {get {
-            return PageIndex < 1;
+            return PageIndex > 1;
         }}
         public bool HasNextPage { get{
             return PageIndex < TotalPages;
