@@ -11,6 +11,10 @@ namespace ApiJwt.Profiles
     public class MappingProfile : Profile
     {
         public MappingProfile (){
+            CreateMap<Venta,VentaDto>();
+            CreateMap<Paciente,PacienteDto>();
+            CreateMap<MedicamentoVendido, MedicamentoVendidoDto>();
+            CreateMap<MedicamentoComprado,MedicamentoCompradoDto>();
             CreateMap<Medicamento, MedicamentoDto>().ReverseMap();
             CreateMap<Proveedor,ProveedorDto>().ReverseMap();
             CreateMap<Compra, CompraDto>().ReverseMap();

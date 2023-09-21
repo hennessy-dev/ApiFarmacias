@@ -16,7 +16,7 @@ using Persistence;
 
 namespace ApiJwt.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee,Manager,Admin")]
     public class ProveedorController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;

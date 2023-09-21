@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiJwt.Controllers
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Employee,Manager,Admin")]
     public class CompraController : ApiBaseController
     {
         private readonly IUnitOfWork _unitOfWork;
