@@ -14,7 +14,7 @@ namespace Persistence.Data.Configuration
         {
             builder.ToTable("MedicamentoComprado");
             builder.Property(p=>p.CantidadComprada).HasColumnName("CantidadComprada").HasColumnType("int").IsRequired();
-            builder.Property(p=>p.PrecioCompra).HasColumnName("PrecioCompra").HasColumnType("decimal(10,10)").IsRequired();
+            builder.Property(p=>p.PrecioCompra).HasColumnName("PrecioCompra").HasColumnType("double").IsRequired();
             builder.HasOne(p => p.Compra).WithMany(p=>p.MedicamentosComprados).HasForeignKey(p=>p.CompraId);
             builder.HasOne(p => p.Medicamento).WithMany(p=>p.MedicamentosComprados).HasForeignKey(p=>p.MedicamentoId);
             

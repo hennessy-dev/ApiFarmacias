@@ -2,7 +2,7 @@ namespace Domain.Entities;
 public class Medicamento : BaseEntity
 {
     public string Nombre { get; set; }
-    public decimal Precio { get; set; }
+    public double Precio { get; set; }
     public int Stock { get; set; }
     public DateTime FechaExpiracion { get; set; }
     public int ProovedorId { get; set; }

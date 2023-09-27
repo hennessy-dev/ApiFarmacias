@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class DoubleCorrections : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -164,7 +164,7 @@ namespace Persistence.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "varchar(120)", maxLength: 120, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Precio = table.Column<decimal>(type: "decimal(10,10)", nullable: false),
+                    Precio = table.Column<double>(type: "double", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     FechaExpiracion = table.Column<DateTime>(type: "datetime", nullable: false),
                     ProovedorId = table.Column<int>(type: "int", nullable: false)
@@ -240,7 +240,7 @@ namespace Persistence.Data.Migrations
                     CompraId = table.Column<int>(type: "int", nullable: false),
                     MedicamentoId = table.Column<int>(type: "int", nullable: false),
                     CantidadComprada = table.Column<int>(type: "int", nullable: false),
-                    PrecioCompra = table.Column<decimal>(type: "decimal(10,10)", nullable: false)
+                    PrecioCompra = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -269,7 +269,7 @@ namespace Persistence.Data.Migrations
                     VentaId = table.Column<int>(type: "int", nullable: false),
                     MedicamentoId = table.Column<int>(type: "int", nullable: false),
                     CantidadVendida = table.Column<int>(type: "int", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(10,10)", nullable: false)
+                    Precio = table.Column<double>(type: "double", nullable: false)
                 },
                 constraints: table =>
                 {

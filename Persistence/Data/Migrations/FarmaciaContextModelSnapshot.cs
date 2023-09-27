@@ -82,8 +82,8 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("varchar(120)")
                         .HasColumnName("Nombre");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("Precio")
+                        .HasColumnType("double")
                         .HasColumnName("Precio");
 
                     b.Property<int>("ProovedorId")
@@ -116,8 +116,8 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("MedicamentoId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PrecioCompra")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("PrecioCompra")
+                        .HasColumnType("double")
                         .HasColumnName("PrecioCompra");
 
                     b.HasKey("Id");
@@ -142,8 +142,8 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("MedicamentoId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("Precio")
+                        .HasColumnType("double")
                         .HasColumnName("Precio");
 
                     b.Property<int>("VentaId")

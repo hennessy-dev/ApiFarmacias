@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(FarmaciaContext))]
-    [Migration("20230920195033_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230927205701_DoubleCorrections")]
+    partial class DoubleCorrections
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,8 +85,8 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("varchar(120)")
                         .HasColumnName("Nombre");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("Precio")
+                        .HasColumnType("double")
                         .HasColumnName("Precio");
 
                     b.Property<int>("ProovedorId")
@@ -119,8 +119,8 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("MedicamentoId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("PrecioCompra")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("PrecioCompra")
+                        .HasColumnType("double")
                         .HasColumnName("PrecioCompra");
 
                     b.HasKey("Id");
@@ -145,8 +145,8 @@ namespace Persistence.Data.Migrations
                     b.Property<int>("MedicamentoId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(10,10)")
+                    b.Property<double>("Precio")
+                        .HasColumnType("double")
                         .HasColumnName("Precio");
 
                     b.Property<int>("VentaId")

@@ -57,5 +57,11 @@ namespace ApiJwt.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }        
+        [HttpGet("GetLessThan50")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetLessThan50 () {
+            var ListMedicamentos = await  _unitOfWork.Medicamentos.GetLessThan50();
+            return _mapper.Map<List<MedicamentoDto>>(ListMedicamentos);
+        }
     }
 }

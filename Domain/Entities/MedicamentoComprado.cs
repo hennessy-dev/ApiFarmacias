@@ -6,5 +6,5 @@ public class MedicamentoComprado : BaseEntity
     public int MedicamentoId { get; set; }
     public Medicamento Medicamento { get; set; }
     public int CantidadComprada { get; set; }
-    public decimal PrecioCompra { get; set; }
+    public double PrecioCompra { get; set; }
 }

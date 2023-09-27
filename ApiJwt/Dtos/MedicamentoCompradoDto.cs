@@ -11,6 +11,6 @@ namespace ApiJwt.Dtos
         public int CompraId { get; set; }
         public int MedicamentoId { get; set; }
         public int CantidadComprada { get; set; }
-        public decimal PrecioCompra { get; set; }
+        public double PrecioCompra { get; set; }
     }
 }
