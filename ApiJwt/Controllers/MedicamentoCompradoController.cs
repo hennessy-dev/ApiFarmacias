@@ -57,5 +57,11 @@ namespace ApiJwt.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }        
+        [HttpGet("GetDrugPurchasedFrom")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ICollection<MedicamentoCompradoDto>>> GetDrugPurchasedFrom (int ProveedorId){
+            var Medicamentos = await _unitOfWork.MedicamentosComprados.GetDrugPurchasedFrom(ProveedorId);
+            return _mapper.Map<List<MedicamentoCompradoDto>>(Medicamentos);
+        }
     }
 }

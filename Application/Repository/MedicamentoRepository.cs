@@ -20,5 +20,19 @@ namespace Application.Repository
             var Medicamentos = await _context.Medicamentos.Where(m=>m.Stock < 50).ToListAsync();
             return Medicamentos; 
         }
+        public async Task<IEnumerable<Medicamento>> GetMedicamentoProveedor ()  {
+            var listMedicamentos = await _context.Medicamentos.Include(m => m.Proveedor).ToListAsync();
+            return listMedicamentos;
+        }
+
+        public async Task UpdateStock (int medicamentoId,int cantidadVendida){
+            try{
+                Medicamento medicamento =await _context.Medicamentos.FirstOrDefaultAsync(m=>m.Id == medicamentoId);
+                medicamento.Stock -= cantidadVendida;
+                await _context.SaveChangesAsync();
+            } catch {
+                throw new InvalidOperationException("Medicamento no encontrado");
+            }
+        }
     }
 }

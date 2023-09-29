@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using API.Helpers;
 using ApiJwt.Dtos;
 using ApiJwt.Helpers;
@@ -62,6 +63,12 @@ namespace ApiJwt.Controllers
         public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetLessThan50 () {
             var ListMedicamentos = await  _unitOfWork.Medicamentos.GetLessThan50();
             return _mapper.Map<List<MedicamentoDto>>(ListMedicamentos);
+        }
+        [HttpGet("GetMedicamentoProveedor")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<MedicamentoXProveedor>>> GetMedicamentoProveedor (){
+            var ListMedicamentos = await _unitOfWork.Medicamentos.GetMedicamentoProveedor();
+            return _mapper.Map<List<MedicamentoXProveedor>>(ListMedicamentos);
         }
     }
 }
