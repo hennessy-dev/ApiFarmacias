@@ -21,51 +21,95 @@ namespace ApiJwt.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProveedorController (IUnitOfWork unitOfWork, IMapper mapper){
+
+        public ProveedorController(IUnitOfWork unitOfWork, IMapper mapper)
+        {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpPost]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Proveedor>> Post(ProveedorDto proveedorDto){
+        public async Task<ActionResult<Proveedor>> Post(ProveedorDto proveedorDto)
+        {
             var Proveedor = _mapper.Map<Proveedor>(proveedorDto);
-            if (Proveedor == null){
+            if (Proveedor == null)
+            {
                 return BadRequest(new ApiResponse(400));
             }
             _unitOfWork.Proveedores.Add(Proveedor);
             await _unitOfWork.SaveAsync();
             proveedorDto.Id = Proveedor.Id;
-            return CreatedAtAction(nameof(Post),new {id = proveedorDto.Id},  proveedorDto);
-
+            return CreatedAtAction(nameof(Post), new { id = proveedorDto.Id }, proveedorDto);
         }
+
         [HttpGet]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<Pager<ProveedorDto>>> Get ([FromQuery] Params ProveedorParams) {
-            var Proveedores = await _unitOfWork.Proveedores.GetAllAsync(ProveedorParams.PageIndex,ProveedorParams.PageSize,ProveedorParams.Search);
+        public async Task<ActionResult<Pager<ProveedorDto>>> Get([FromQuery] Params ProveedorParams)
+        {
+            var Proveedores = await _unitOfWork.Proveedores.GetAllAsync(
+                ProveedorParams.PageIndex,
+                ProveedorParams.PageSize,
+                ProveedorParams.Search
+            );
             var ProveedoresListDto = _mapper.Map<List<ProveedorDto>>(Proveedores.registers);
-            return new Pager<ProveedorDto>(ProveedoresListDto,Proveedores.totalRegisters,ProveedorParams.PageIndex,ProveedorParams.PageSize,ProveedorParams.Search);
+            return new Pager<ProveedorDto>(
+                ProveedoresListDto,
+                Proveedores.totalRegisters,
+                ProveedorParams.PageIndex,
+                ProveedorParams.PageSize,
+                ProveedorParams.Search
+            );
         }
+
         [HttpPut]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ProveedorDto>> Put (int id, [FromBody]ProveedorDto ProveedorDto){
-            if(ProveedorDto == null){return NotFound(new ApiResponse(404));}
+        public async Task<ActionResult<ProveedorDto>> Put(
+            int id,
+            [FromBody] ProveedorDto ProveedorDto
+        )
+        {
+            if (ProveedorDto == null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
             var Proveedor = _mapper.Map<Proveedor>(ProveedorDto);
             _unitOfWork.Proveedores.Update(Proveedor);
             await _unitOfWork.SaveAsync();
             return ProveedorDto;
         }
+
         [HttpDelete("{id}")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult> Delete (int id){
+        public async Task<ActionResult> Delete(int id)
+        {
             var Proveedor = await _unitOfWork.Proveedores.GetByIdAsync(id);
-            if (Proveedor == null){return BadRequest(new ApiResponse(400));}
+            if (Proveedor == null)
+            {
+                return BadRequest(new ApiResponse(400));
+            }
             _unitOfWork.Proveedores.Remove(Proveedor);
             await _unitOfWork.SaveAsync();
             return NoContent();
-
         }
 
-        
+        [HttpGet("GetTotalDrugsSold")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ProveedorTotalDrugsSoldDto>>> GetTotalDrugsSold()
+        {
+            var Proveedores = await _unitOfWork.Proveedores.GetAllAsync();
+            var CalculedProveedores = Proveedores
+                .Select(async p =>
+                {
+                    var TotalDrugsSold =
+                        await _unitOfWork.MedicamentosComprados.GetDrugPurchasedFrom(p.Id);
+                    var sum = TotalDrugsSold.Sum(td => td.CantidadComprada);
+                    var proveedor = _mapper.Map<ProveedorTotalDrugsSoldDto>(p);
+                    proveedor.TotalDrugsSold = sum;
+                    return proveedor;
+                });
+            var result = await Task.WhenAll(CalculedProveedores);
+            return Ok(result.ToList());
+        }
     }
 }

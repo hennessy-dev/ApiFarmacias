@@ -12,5 +12,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Medicamento>> GetLessThan50 ();
         Task<IEnumerable<Medicamento>> GetMedicamentoProveedor();
         Task UpdateStock (int medicamentoId,int cantidadVendida);
+        Task <IEnumerable<Medicamento>> GetDrugExpiresBefore (DateTime dateBase);
     }
 }

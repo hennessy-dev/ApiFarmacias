@@ -34,5 +34,11 @@ namespace Application.Repository
                 throw new InvalidOperationException("Medicamento no encontrado");
             }
         }
+
+        public async Task<IEnumerable<Medicamento>> GetDrugExpiresBefore(DateTime baseDate)
+        {
+            var medicamentos = await _context.Medicamentos.Where(m=> DateTime.Compare(m.FechaExpiracion, baseDate) <= 0).ToListAsync();
+            return medicamentos;
+        }
     }
 }
