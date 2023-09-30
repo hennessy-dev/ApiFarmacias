@@ -38,5 +38,12 @@ namespace Application.Repository
 
             return medicamentosComprados;
         }
+
+        public async Task<double> GetTotalPriceDrugBought()
+        {
+            var MedicamentosComprados = await _context.MedicamentosComprados.ToListAsync();
+            double totalSum = MedicamentosComprados.Sum(mc=>mc.PrecioCompra);
+            return totalSum;
+        }
     }
 }

@@ -130,5 +130,33 @@ namespace ApiJwt.Controllers
                 return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
             }
         }
+        [HttpGet("GetUnsoldDrug")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetUnsoldDrug()
+        {
+            try
+            {
+                var ListMedicamentos = await _unitOfWork.Medicamentos.GetUnsoldDrug();
+                return _mapper.Map<List<MedicamentoDto>>(ListMedicamentos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
+            }
+        }
+        [HttpGet("GetMostExpensiveDrug")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<MedicamentoDto>> GetMostExpensiveDrug()
+        {
+            try
+            {
+                var medicamento = await _unitOfWork.Medicamentos.GetMostExpensiveDrug();
+                return _mapper.Map<MedicamentoDto>(medicamento);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
+            }
+        }
     }
 }

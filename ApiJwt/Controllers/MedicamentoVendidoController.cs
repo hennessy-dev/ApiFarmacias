@@ -130,5 +130,17 @@ namespace ApiJwt.Controllers
             var responseDto = new IntResponseDto { Value = total };
             return responseDto;
         }
+        [HttpGet("GetBalance")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<BalanceDto>> GetBalance (){
+            double TotalDrugBought = await _unitOfWork.MedicamentosComprados.GetTotalPriceDrugBought();
+            double TotalDrugSold = await _unitOfWork.MedicamentosVendidos.GetTotalPriceDrugSold();
+            double Balance = TotalDrugSold - TotalDrugBought;
+            return new BalanceDto () {
+                TotalBought = TotalDrugBought,
+                TotalSold = TotalDrugSold,
+                Balance = Balance
+            } ;
+        }
     }
 }

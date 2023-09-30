@@ -10,5 +10,6 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<MedicamentoVendido>> GetDrugsSoldAfter(IEnumerable<Venta> ventas);
         Task<int> GetTotalDrugsSold (string drugName);
+        Task<double> GetTotalPriceDrugSold ();
     }
 }

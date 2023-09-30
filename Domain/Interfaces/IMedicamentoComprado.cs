@@ -9,5 +9,6 @@ namespace Domain.Interfaces
     public interface IMedicamentoComprado : IGenericRepository<MedicamentoComprado>
     {
         Task<IEnumerable<MedicamentoComprado>> GetDrugPurchasedFrom (int ProveedorId);
+        Task<double> GetTotalPriceDrugBought ();
     }
 }

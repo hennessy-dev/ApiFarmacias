@@ -40,5 +40,12 @@ namespace Application.Repository
             int total = await medicamentosVendidos.SumAsync(mv => mv.CantidadVendida);
             return total;
         }
+
+        public async Task<double> GetTotalPriceDrugSold()
+        {
+            var MedicamentosVendidos = await _context.MedicamentosVendidos.ToListAsync();
+            double totalSum = MedicamentosVendidos.Sum(mv=>mv.Precio);
+            return totalSum;
+        }
     }
 }

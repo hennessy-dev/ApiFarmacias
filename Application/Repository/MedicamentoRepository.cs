@@ -40,5 +40,17 @@ namespace Application.Repository
             var medicamentos = await _context.Medicamentos.Where(m=> DateTime.Compare(m.FechaExpiracion, baseDate) <= 0).ToListAsync();
             return medicamentos;
         }
+        public async Task<IEnumerable<Medicamento>> GetUnsoldDrug () {
+            var MedicamentosVendidos =await _context.MedicamentosVendidos.ToListAsync();
+            var Medicamentos = await _context.Medicamentos.ToListAsync();
+            var MedicamentosFiltrados = Medicamentos.Where(m => !MedicamentosVendidos.Any(mv=> mv.MedicamentoId == m.Id));
+            return MedicamentosFiltrados;
+        }
+
+        public async Task<Medicamento> GetMostExpensiveDrug()
+        {
+            var medicamento =await _context.Medicamentos.OrderByDescending(m=>m.Precio).FirstOrDefaultAsync();
+            return medicamento;
+        }
     }
 }

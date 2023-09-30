@@ -98,18 +98,20 @@ namespace ApiJwt.Controllers
         public async Task<ActionResult<List<ProveedorTotalDrugsSoldDto>>> GetTotalDrugsSold()
         {
             var Proveedores = await _unitOfWork.Proveedores.GetAllAsync();
-            var CalculedProveedores = Proveedores
-                .Select(async p =>
-                {
-                    var TotalDrugsSold =
-                        await _unitOfWork.MedicamentosComprados.GetDrugPurchasedFrom(p.Id);
-                    var sum = TotalDrugsSold.Sum(td => td.CantidadComprada);
-                    var proveedor = _mapper.Map<ProveedorTotalDrugsSoldDto>(p);
-                    proveedor.TotalDrugsSold = sum;
-                    return proveedor;
-                });
-            var result = await Task.WhenAll(CalculedProveedores);
-            return Ok(result.ToList());
+            var results = new List<ProveedorTotalDrugsSoldDto>();
+
+            foreach (var p in Proveedores)
+            {
+                var TotalDrugsSold = await _unitOfWork.MedicamentosComprados.GetDrugPurchasedFrom(
+                    p.Id
+                );
+                var sum = TotalDrugsSold.Sum(td => td.CantidadComprada);
+                var proveedor = _mapper.Map<ProveedorTotalDrugsSoldDto>(p);
+                proveedor.TotalDrugsSold = sum;
+                results.Add(proveedor);
+            }
+
+            return Ok(results);
         }
     }
 }
