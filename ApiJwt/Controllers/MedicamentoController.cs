@@ -158,5 +158,19 @@ namespace ApiJwt.Controllers
                 return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
             }
         }
+        [HttpGet("GetLeastSoldDrug")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<MedicamentoDto>> GetLeastSoldDrug()
+        {
+            try
+            {
+                var medicamento = await _unitOfWork.Medicamentos.GetLeastSoldDrug();
+                return _mapper.Map<MedicamentoDto>(medicamento);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
+            }
+        }
     }
 }

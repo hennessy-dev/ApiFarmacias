@@ -142,5 +142,22 @@ namespace ApiJwt.Controllers
                 Balance = Balance
             } ;
         }
+        [HttpGet("GetDrugSoldAfterAndBeforeThan")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IntResponseDto>> GetDrugSoldAfterAndBeforeThan (DateTime firtsDate,DateTime lastDate){
+            var medicamentoVendidos = await _unitOfWork.MedicamentosVendidos.GetDrugSoldAfterAndBeforeThan(firtsDate,lastDate);
+            var total = medicamentoVendidos.Sum(mv=>mv.CantidadVendida);
+            return new IntResponseDto(){
+                Value = total
+            };
+        }
+        [HttpGet("AverageDrugSoldPerSale")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<DoubleResponseDto>> AverageDrugSoldPerSale (){
+            var AverageDrugSold = await _unitOfWork.MedicamentosVendidos.AverageDrugSoldPerSale();
+            return new DoubleResponseDto(){
+                Value = AverageDrugSold
+            };
+        }
     }
 }

@@ -6,6 +6,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 
 namespace Application.Repository
@@ -51,6 +52,16 @@ namespace Application.Repository
         {
             var medicamento =await _context.Medicamentos.OrderByDescending(m=>m.Precio).FirstOrDefaultAsync();
             return medicamento;
+        }
+
+        public async Task<Medicamento> GetLeastSoldDrug()
+        {
+            var medicamentosVendidos =await _context.MedicamentosVendidos.ToListAsync();   
+            var medicamentosVendidosAgrupados = medicamentosVendidos.GroupBy(mv=>mv.MedicamentoId).ToList();
+            var gruposOrdenados = medicamentosVendidosAgrupados.OrderBy(g=>g.Sum(mv=>mv.CantidadVendida));
+            var grupoMenosVendido = gruposOrdenados.FirstOrDefault();
+            var MedicamentoMenosVendido =await _context.Medicamentos.FirstOrDefaultAsync(m=>m.Id == grupoMenosVendido.Key);
+            return MedicamentoMenosVendido;
         }
     }
 }

@@ -44,8 +44,35 @@ namespace Application.Repository
         public async Task<double> GetTotalPriceDrugSold()
         {
             var MedicamentosVendidos = await _context.MedicamentosVendidos.ToListAsync();
-            double totalSum = MedicamentosVendidos.Sum(mv=>mv.Precio);
+            double totalSum = MedicamentosVendidos.Sum(mv => mv.Precio);
             return totalSum;
+        }
+
+        public async Task<IEnumerable<MedicamentoVendido>> GetDrugSoldAfterAndBeforeThan(
+            DateTime firstDate,
+            DateTime lastDate
+        )
+        {
+            var ventasEnRango = await _context.Ventas
+                .Where(v => firstDate <= v.FechaVenta && v.FechaVenta <= lastDate)
+                .ToListAsync();
+            var idsVentasEnRango = ventasEnRango.Select(v => v.Id).ToList();
+            var medicamentosVendidos = _context.MedicamentosVendidos
+                .Where(mv => idsVentasEnRango.Contains(mv.VentaId))
+                .ToList();
+
+            return medicamentosVendidos;
+        }
+
+        public async Task<double> AverageDrugSoldPerSale()
+        {
+            var PromedioPorVenta =await _context.MedicamentosVendidos.GroupBy(mv => mv.VentaId).Select(grupo => new{
+                VentaId = grupo.Key,
+                PromedioCantidadVendida = grupo.Average(mv => mv.CantidadVendida)
+            })
+            .ToListAsync();
+            var promedioTotal = PromedioPorVenta.Average(g=>g.PromedioCantidadVendida);
+            return promedioTotal;
         }
     }
 }

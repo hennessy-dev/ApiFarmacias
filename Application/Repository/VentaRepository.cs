@@ -20,5 +20,10 @@ namespace Application.Repository
             return ventasFiltradas;
         }
 
+        public async Task<IEnumerable<Venta>> GetSalesPerEmployee(int EmployeeId)
+        {
+            var Ventas = await _context.Ventas.Where(v=>v.EmpleadoId == EmployeeId).ToListAsync();
+            return Ventas;
+        }
     }
 }

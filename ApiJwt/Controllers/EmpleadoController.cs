@@ -57,5 +57,44 @@ namespace ApiJwt.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }        
+        [HttpGet("GetSalesPerEmployee")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<EmpleadoXVentasTotales>>> GetSalesPerEmployee()
+        {
+            var Empleados = await _unitOfWork.Empleados.GetAllAsync();
+            var results = new List<EmpleadoXVentasTotales>();
+
+            foreach (var e in Empleados)
+            {
+                var TotalObjectSales = await _unitOfWork.Ventas.GetSalesPerEmployee(
+                    e.Id
+                );
+                var TotalSales = TotalObjectSales.Count();
+                var proveedor = _mapper.Map<EmpleadoXVentasTotales>(e);
+                proveedor.VentasTotales = TotalSales;
+                results.Add(proveedor);
+            }
+
+            return Ok(results);
+        }
+        [HttpGet("GetEmployeesWithFiveSalesOrMore")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<EmpleadoXVentasTotales>>> GetEmployeesWithFiveSalesOrMore()
+        {
+            var Empleados = await _unitOfWork.Empleados.GetAllAsync();
+            var results = new List<EmpleadoXVentasTotales>();
+
+            foreach (var e in Empleados)
+            {
+                var TotalObjectSales = await _unitOfWork.Ventas.GetSalesPerEmployee(
+                    e.Id
+                );
+                var TotalSales = TotalObjectSales.Count();
+                var proveedor = _mapper.Map<EmpleadoXVentasTotales>(e);
+                proveedor.VentasTotales = TotalSales;
+                results.Add(proveedor);
+            }
+            return Ok(results.Where(r=>r.VentasTotales >= 5));
+        }
     }
 }

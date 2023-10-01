@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using API.Helpers;
 using ApiJwt.Dtos;
 using ApiJwt.Helpers;
@@ -57,5 +58,16 @@ namespace ApiJwt.Controllers
             await _unitOfWork.SaveAsync();
             return NoContent();
         }        
+        [HttpGet("PatientsWhoHavePurchased")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PacienteDto>>> PatientsWhoHavePurchased(string drugName){
+            try{var pacientes = await _unitOfWork.Pacientes.PatientsWhoHavePurchased(drugName);
+            return _mapper.Map<List<PacienteDto>>(pacientes);
+            } catch(ArgumentNullException){
+                return BadRequest(new ApiResponse (400,"El nombre del medicamento no puede ser null"));
+            } catch (Exception ex){
+                return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
+            }
+        }
     }
 }

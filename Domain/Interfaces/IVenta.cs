@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IVenta : IGenericRepository<Venta>
     {
-        //2023-02-01T05:00:00.000Z
         Task <IEnumerable<Venta>> GetSalesAfter (DateTime BaseDate);
+        Task <IEnumerable<Venta>> GetSalesPerEmployee (int EmployeeId);
     }
 }

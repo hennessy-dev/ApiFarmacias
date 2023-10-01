@@ -113,5 +113,13 @@ namespace ApiJwt.Controllers
 
             return Ok(results);
         }
+        [HttpGet("ProvidersWhoHaveNotSoldInLastYear")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ProveedorDto>>> ProvidersWhoHaveNotSoldInLastYear()
+        {
+            var Proveedores = await _unitOfWork.Proveedores.ProvidersWhoHaveNotSoldInLastYear();
+
+            return _mapper.Map<List<ProveedorDto>>(Proveedores);
+        }
     }
 }

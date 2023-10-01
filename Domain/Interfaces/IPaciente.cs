@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IPaciente : IGenericRepository<Paciente>
     {
-        
+        Task<IEnumerable<Paciente>> PatientsWhoHavePurchased (string drugName)   ;
     }
 }

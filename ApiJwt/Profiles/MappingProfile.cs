@@ -21,6 +21,7 @@ namespace ApiJwt.Profiles
             CreateMap<Empleado,EmpleadoDto>().ReverseMap();
             CreateMap<Medicamento,MedicamentoXProveedor>().ReverseMap();
             CreateMap<Proveedor,ProveedorTotalDrugsSoldDto>().ReverseMap();
+            CreateMap<Empleado,EmpleadoXVentasTotales>().ReverseMap();
         }
     }
 }
