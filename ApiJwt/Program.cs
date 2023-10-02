@@ -1,6 +1,7 @@
 using System.Reflection;
 using ApiJwt.Extension;
 using ApiJwt.Helpers;
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Serilog;
@@ -22,6 +23,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 builder.Services.ConfigureCors();
+builder.Services.ConfigureRateLimiting();
 builder.Services.AddAplicacionServices();
 builder.Services.ConfigureApiVersioning();
 builder.Services.AddJwt(builder.Configuration);
@@ -63,7 +65,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseIpRateLimiting();
 app.MapControllers();
 
 app.Run();
