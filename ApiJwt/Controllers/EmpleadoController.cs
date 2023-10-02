@@ -96,5 +96,21 @@ namespace ApiJwt.Controllers
             }
             return Ok(results.Where(r=>r.VentasTotales >= 5));
         }
+        [HttpGet("EmployeesWhoHaventMadeSales")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<EmpleadoDto>>> EmployeesWhoHaventMadeSales()
+        {
+            var Empleados = await _unitOfWork.Empleados.EmployeesWhoHaventMadeSales();
+            
+            return _mapper.Map<List<EmpleadoDto>>(Empleados);
+        }
+        [HttpGet("EmployeesWhoHaveLessThan5Sales")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<EmpleadoDto>>> EmployeesWhoHaveLessThan5Sales()
+        {
+            var Empleados = await _unitOfWork.Empleados.EmployeesWhoHaveLessThan5Sales();
+            
+            return _mapper.Map<List<EmpleadoDto>>(Empleados);
+        }
     }
 }

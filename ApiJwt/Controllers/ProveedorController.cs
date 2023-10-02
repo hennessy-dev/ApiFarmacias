@@ -121,5 +121,33 @@ namespace ApiJwt.Controllers
 
             return _mapper.Map<List<ProveedorDto>>(Proveedores);
         }
+        [HttpGet("SupplierThatHasSuppliedMoreInLastYear")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ProveedorTotalDrugsSoldDto>> SupplierThatHasSuppliedMoreInLastYear()
+        {
+            var (p, totalMedicamentos) = await _unitOfWork.Proveedores.SupplierThatHasSuppliedMoreInLastYear();
+
+            var Proveedor = _mapper.Map<ProveedorTotalDrugsSoldDto>(p);
+            Proveedor.TotalDrugsSold = totalMedicamentos;
+            return Proveedor;
+        }
+        [HttpGet("SuppliersThatHasSuppliedInLastYear")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ProveedorTotalDrugsSoldDto>>> SuppliersThatHasSuppliedInLastYear()
+        {
+            var proveedores = await _unitOfWork.Proveedores.SuppliersThatHasSuppliedInLastYear();
+
+            var Proveedores = _mapper.Map<List<ProveedorTotalDrugsSoldDto>>(proveedores);
+            return Proveedores;
+        }
+        [HttpGet("SuppliersOfMedicinesWithLessThan50Units")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ProveedorXMedicamentos>>> SuppliersOfMedicinesWithLessThan50Units()
+        {
+            var proveedores = await _unitOfWork.Proveedores.SuppliersOfMedicinesWithLessThan50Units();
+
+            var Proveedores = _mapper.Map<List<ProveedorXMedicamentos>>(proveedores);
+            return Proveedores;
+        }
     }
 }

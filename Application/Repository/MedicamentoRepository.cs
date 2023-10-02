@@ -63,5 +63,27 @@ namespace Application.Repository
             var MedicamentoMenosVendido =await _context.Medicamentos.FirstOrDefaultAsync(m=>m.Id == grupoMenosVendido.Key);
             return MedicamentoMenosVendido;
         }
+
+        public async Task<(List<Medicamento> medicamentos, List<int> totales)> GetTotalDrugSoldPer(DateTime initialDate, DateTime lastDate)
+{
+    var medicamentosQuery = await _context.MedicamentosVendidos
+        .Include(v => v.Medicamento)
+        .Include(v => v.Venta)
+        .Where(v => v.Venta.FechaVenta >= initialDate && v.Venta.FechaVenta <= lastDate)
+        .GroupBy(v => v.Medicamento)
+        .Select(g => new
+        {
+            Medicamento = g.Key,
+            Totales = g.Sum(mv => mv.CantidadVendida)
+        })
+        .ToListAsync();
+
+    var medicamentos = medicamentosQuery.Select(m => m.Medicamento).ToList();
+    var totales = medicamentosQuery.Select(m => m.Totales).ToList();
+
+    return (medicamentos, totales);
+}
+
+
     }
 }

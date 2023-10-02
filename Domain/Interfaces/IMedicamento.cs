@@ -16,5 +16,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Medicamento>> GetUnsoldDrug();
         Task<Medicamento> GetMostExpensiveDrug ();
         Task<Medicamento> GetLeastSoldDrug ();
+        Task<(List<Medicamento> medicamentos, List<int> totales)> GetTotalDrugSoldPer(DateTime initialDate, DateTime lastDate);
     }
 }

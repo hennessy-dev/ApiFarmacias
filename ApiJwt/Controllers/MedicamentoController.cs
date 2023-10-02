@@ -172,5 +172,20 @@ namespace ApiJwt.Controllers
                 return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
             }
         }
+        [HttpGet("GetTotalDrugSoldPer")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<MedicamentoXTotalVendido>> GetTotalDrugSoldPer (DateTime firtsDate,DateTime lastDate){
+            var (medicamentos, totales) = await _unitOfWork.Medicamentos.GetTotalDrugSoldPer(firtsDate,lastDate);
+            var results = new List<MedicamentoXTotalVendido>();
+
+            for (int i = 0; i < medicamentos.Count(); i++)
+            {
+                var medicamento = _mapper.Map<MedicamentoXTotalVendido>(medicamentos[i]);
+                medicamento.TotalVentas = totales[i];
+                results.Add(medicamento);
+            }
+
+            return Ok(results);
+        }
     }
 }
