@@ -17,5 +17,7 @@ namespace Domain.Interfaces
         Task<Medicamento> GetMostExpensiveDrug ();
         Task<Medicamento> GetLeastSoldDrug ();
         Task<(List<Medicamento> medicamentos, List<int> totales)> GetTotalDrugSoldPer(DateTime initialDate, DateTime lastDate);
+        Task<List<Medicamento>> GetTotalDrugUnsoldBetween(DateTime initialDate, DateTime lastDate);
+        Task<List<Medicamento>> GetDrugWithPiceMoreThanAndStokLeastThan (double price, int stok);
     }
 }

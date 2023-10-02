@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         Task<IEnumerable<Empleado>> EmployeesWhoHaventMadeSales();
         Task<IEnumerable<Empleado>> EmployeesWhoHaveLessThan5Sales();
         Task<Empleado> EmployeeWhoSoldMoreKindOfDrugsBetween(DateTime firtsDate, DateTime lastDate);
+        Task<List<Empleado>> EmployeesWhoDidntSellBetween(DateTime firtsDate, DateTime lastDate);
     }
 }

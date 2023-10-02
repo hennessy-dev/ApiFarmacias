@@ -149,5 +149,15 @@ namespace ApiJwt.Controllers
             var Proveedores = _mapper.Map<List<ProveedorXMedicamentos>>(proveedores);
             return Proveedores;
         }
+        
+        [HttpGet("SuppliersWithFiveOrMoreKindsOfMedicine")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<ProveedorXMedicamentos>>> SuppliersWith5OrMoreKindsOfMedicine(DateTime firtsDate, DateTime lastDate)
+        {
+            var proveedores = await _unitOfWork.Proveedores.SuppliersWith5OrMoreKindsOfMedicine(firtsDate, lastDate);
+
+            var Proveedores = _mapper.Map<List<ProveedorXMedicamentos>>(proveedores);
+            return Proveedores;
+        }
     }
 }

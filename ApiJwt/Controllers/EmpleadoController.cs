@@ -120,5 +120,13 @@ namespace ApiJwt.Controllers
             
             return Ok(_mapper.Map<EmpleadoDto>(Empleado));
         }
+        [HttpGet("EmployeesWhoDidntSellBetween")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<EmpleadoDto>>> EmployeesWhoDidntSellBetween(DateTime firtsDate,DateTime lastDate)
+        {
+            var Empleados = await _unitOfWork.Empleados.EmployeesWhoDidntSellBetween(firtsDate,lastDate);
+            
+            return Ok(_mapper.Map<List<EmpleadoDto>>(Empleados));
+        }
     }
 }

@@ -187,5 +187,17 @@ namespace ApiJwt.Controllers
 
             return Ok(results);
         }
+        [HttpGet("GetTotalDrugUnsoldBetween")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<MedicamentoDto>>> GetTotalDrugUnsoldBetween (DateTime firtsDate,DateTime lastDate){
+            var medicamentos = await _unitOfWork.Medicamentos.GetTotalDrugUnsoldBetween(firtsDate,lastDate);
+            return _mapper.Map<List<MedicamentoDto>>(medicamentos);
+        }
+        [HttpGet("GetDrugWithPiceMoreThanAndStokLeastThan")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<List<MedicamentoDto>>> GetDrugWithPiceMoreThanAndStokLeastThan (double price, int stok){
+            var medicamentos = await _unitOfWork.Medicamentos.GetDrugWithPiceMoreThanAndStokLeastThan(price, stok);
+            return _mapper.Map<List<MedicamentoDto>>(medicamentos);
+        }
     }
 }

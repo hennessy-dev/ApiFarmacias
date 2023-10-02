@@ -92,5 +92,15 @@ namespace Application.Repository
             .ToListAsync();
             return Proveedores;
         }
+
+        public async Task<IEnumerable<Proveedor>> SuppliersWith5OrMoreKindsOfMedicine(DateTime firtsDate, DateTime lastDate)
+        {
+            var MedicamentosComprados = await _context.MedicamentosComprados.Include( p=> p.Compra).Where(m=>m.Compra.FechaCompra >= firtsDate && m.Compra.FechaCompra <= lastDate).ToListAsync();
+            var compras = MedicamentosComprados.Select(m=>m.Compra).ToList();
+            var groups = compras.GroupBy(m=>m.ProveedorId).Where(g=> g.Count() >= 5).Select(g=>g.Key);
+            var proveedores = await _context.Proveedores.Include(p=>p.Medicamentos).Where(p=> groups.Contains(p.Id)).ToListAsync();
+            return proveedores;
+
+        }
     }
 }

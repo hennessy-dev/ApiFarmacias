@@ -29,20 +29,26 @@ namespace Application.Repository
         }
 
        public async Task<Empleado> EmployeeWhoSoldMoreKindOfDrugsBetween(DateTime firstDate, DateTime lastDate)
-{
-    var employee = await _context.Empleados
-        .Include(e => e.Ventas)
-        .ThenInclude(v => v.MedicamentosVendidos)
-        .Where(e => e.Ventas.Any(v => v.FechaVenta >= firstDate && v.FechaVenta <= lastDate))
-        .OrderByDescending(e => e.Ventas
-            .SelectMany(v => v.MedicamentosVendidos)
-            .Select(mv => mv.MedicamentoId)
-            .Distinct()
-            .Count())
-        .FirstOrDefaultAsync();
+        {
+            var employee = await _context.Empleados
+                .Include(e => e.Ventas)
+                .ThenInclude(v => v.MedicamentosVendidos)
+                .Where(e => e.Ventas.Any(v => v.FechaVenta >= firstDate && v.FechaVenta <= lastDate))
+                .OrderByDescending(e => e.Ventas
+                    .SelectMany(v => v.MedicamentosVendidos)
+                    .Select(mv => mv.MedicamentoId)
+                    .Distinct()
+                    .Count())
+                .FirstOrDefaultAsync();
 
-    return employee;
-}
+            return employee;
+        }
 
+        public async Task<List<Empleado>> EmployeesWhoDidntSellBetween(DateTime firtsDate, DateTime lastDate)
+        {
+            var employees = await _context.Empleados.Include(m=>m.Ventas.Where(v=>v.FechaVenta >= firtsDate && v.FechaVenta <= lastDate))
+            .Where(e => e.Ventas.Count() == 0).ToListAsync();
+            return employees;
+        }
     }
 }
