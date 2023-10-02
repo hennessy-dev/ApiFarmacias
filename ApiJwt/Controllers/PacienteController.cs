@@ -168,5 +168,27 @@ namespace ApiJwt.Controllers
                 return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
             }
         }
+        [HttpGet("PatientsTotalSpentInLastYear")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<PatientWhoSpentMostMoney>>> PatientsTotalSpentInLastYear()
+        {
+            try
+            {
+                var (pacientes,totalGastado) = await _unitOfWork.Pacientes.PatientsTotalSpentInLastYear();
+                List<PatientWhoSpentMostMoney> pacientesDto = new();
+               for (int i = 0; i < pacientes.Count; i++)
+               {
+                    var paciente = _mapper.Map<PatientWhoSpentMostMoney>(pacientes[i]);
+                    paciente.TotalGastado = totalGastado[i];
+                    pacientesDto.Add(paciente);
+               }
+               return pacientesDto;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(400, "Se produjo un error: " + ex.Message));
+            }
+        }
+        
     }
 }

@@ -112,5 +112,13 @@ namespace ApiJwt.Controllers
             
             return _mapper.Map<List<EmpleadoDto>>(Empleados);
         }
+        [HttpGet("EmployeeWhoSoldMoreKindOfDrugsBetween")]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<EmpleadoDto>> EmployeeWhoSoldMoreKindOfDrugsBetween(DateTime firtsDate,DateTime lastDate)
+        {
+            var Empleado = await _unitOfWork.Empleados.EmployeeWhoSoldMoreKindOfDrugsBetween(firtsDate,lastDate);
+            
+            return Ok(_mapper.Map<EmpleadoDto>(Empleado));
+        }
     }
 }

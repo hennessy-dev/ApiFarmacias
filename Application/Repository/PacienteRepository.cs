@@ -70,12 +70,43 @@ namespace Application.Repository
             return pacientes;
         }
 
-        public async Task<IEnumerable<Paciente>> PatientsWhoHaventBoughtAnythingBetween(DateTime initialDate, DateTime lastDate)
+        public async Task<IEnumerable<Paciente>> PatientsWhoHaventBoughtAnythingBetween(
+            DateTime initialDate,
+            DateTime lastDate
+        )
         {
-            var Pacientes = await _context.Pacientes.Include(p=> p.Ventas)
-            .Where(p=> !p.Ventas.Any(v=> v.FechaVenta >= initialDate && v.FechaVenta <= lastDate ))
-            .ToListAsync();
+            var Pacientes = await _context.Pacientes
+                .Include(p => p.Ventas)
+                .Where(
+                    p => !p.Ventas.Any(v => v.FechaVenta >= initialDate && v.FechaVenta <= lastDate)
+                )
+                .ToListAsync();
             return Pacientes;
+        }
+
+        public async Task<(
+            List<Paciente> pacientes,
+            List<double> TotalGastado
+        )> PatientsTotalSpentInLastYear()
+        {
+            var lastYearStartDate = DateTime.Now.AddYears(-1);
+            var currentDateTime = DateTime.Now;
+
+            var medicamentosVendidosQuery = await _context.MedicamentosVendidos
+                .Where(
+                    mv =>
+                        mv.Venta.FechaVenta >= lastYearStartDate
+                        && mv.Venta.FechaVenta <= currentDateTime
+                )
+                .Include(mv => mv.Venta)
+                .GroupBy(mv => mv.Venta.Paciente)
+                .Select(g => new { Paciente = g.Key, TotalGastado = g.Sum(mv => mv.Precio) })
+                .OrderByDescending(g => g.TotalGastado)
+                .ToListAsync();
+
+            var pacientes = medicamentosVendidosQuery.Select(mv => mv.Paciente).ToList();
+            var totales = medicamentosVendidosQuery.Select(mv => mv.TotalGastado).ToList();
+            return (pacientes, totales);
         }
     }
 }

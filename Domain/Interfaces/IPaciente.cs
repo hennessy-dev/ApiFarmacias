@@ -14,5 +14,6 @@ namespace Domain.Interfaces
         Task<(Paciente p, double total)> PatientWhoSpentMostMoney ();
         Task<IEnumerable<Paciente>> PatientsWhoBoughtInLastYear (string drugName);
         Task<IEnumerable<Paciente>> PatientsWhoHaventBoughtAnythingBetween(DateTime initialDate, DateTime lastDate);
-    }
+        Task<(List<Paciente> pacientes, List<double> TotalGastado)> PatientsTotalSpentInLastYear();
+    } 
 }

@@ -174,7 +174,7 @@ namespace ApiJwt.Controllers
         }
         [HttpGet("GetTotalDrugSoldPer")]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<MedicamentoXTotalVendido>> GetTotalDrugSoldPer (DateTime firtsDate,DateTime lastDate){
+        public async Task<ActionResult<List<MedicamentoXTotalVendido>>> GetTotalDrugSoldPer (DateTime firtsDate,DateTime lastDate){
             var (medicamentos, totales) = await _unitOfWork.Medicamentos.GetTotalDrugSoldPer(firtsDate,lastDate);
             var results = new List<MedicamentoXTotalVendido>();
 

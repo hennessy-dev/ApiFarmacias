@@ -27,5 +27,22 @@ namespace Application.Repository
             var Empleados = await _context.Empleados.Where(e=>e.Ventas.Count() < 5).ToListAsync();
             return Empleados;
         }
+
+       public async Task<Empleado> EmployeeWhoSoldMoreKindOfDrugsBetween(DateTime firstDate, DateTime lastDate)
+{
+    var employee = await _context.Empleados
+        .Include(e => e.Ventas)
+        .ThenInclude(v => v.MedicamentosVendidos)
+        .Where(e => e.Ventas.Any(v => v.FechaVenta >= firstDate && v.FechaVenta <= lastDate))
+        .OrderByDescending(e => e.Ventas
+            .SelectMany(v => v.MedicamentosVendidos)
+            .Select(mv => mv.MedicamentoId)
+            .Distinct()
+            .Count())
+        .FirstOrDefaultAsync();
+
+    return employee;
+}
+
     }
 }
